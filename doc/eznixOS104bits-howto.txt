@@ -1,0 +1,87 @@
+Simple DEB packaging Howto
+
+
+--------------------------------------
+
+1. Set the date variable
+
+UDATE=$(date +%Y%m%d)
+
+2. Set working directory
+
+WKDIR="$(pwd)"
+
+--------------------------------------
+
+3. Decide on the name of your package. Standard debian notation is all lowercase in the following format
+
+<project>_<major version>.<minor version>-<package revision>:
+
+Code:
+seedianOS104bits_$UDATE-1
+
+--------------------------------------
+
+4. Create a directory in which to make your package. The name should be the same as the package name.
+
+Code:
+mkdir seedianOS104bits_$UDATE-1
+
+--------------------------------------
+
+5. Put the files of your program where they would be installed to on a system. The packaging directory is the root of the files system.
+
+Code:
+mkdir -p $WKDIR/seedianOS104bits_$UDATE-1_all
+mkdir -p $WKDIR/seedianOS104bits_$UDATE-1_all/usr/local/bin
+mkdir -p $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104
+mkdir -p $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/doc/seedianOS104
+mkdir -p $WKDIR/seedianOS104bits_$UDATE-1_all/DEBIAN
+
+cp -r $WKDIR/seedian104/bootloaders $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp -r $WKDIR/seedian104/hooks $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp -r $WKDIR/seedian104/icons $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp -r $WKDIR/seedian104/launchers $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp -r $WKDIR/seedian104/livebuild $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp -r $WKDIR/seedian104/scripts $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp -r $WKDIR/seedian104/sources $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp -r $WKDIR/seedian104/seedianOS104bits $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp -r $WKDIR/seedian104/doc $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp -r $WKDIR/seedian104/splash $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp $WKDIR/seedian104/doc/* $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/doc/seedianOS104/
+cp $WKDIR/seedian104/seedianOS104bits/postinst $WKDIR/seedianOS104bits_$UDATE-1_all/DEBIAN/
+cp $WKDIR/seedian104/bldseedian104 $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp $WKDIR/seedian104/scripts/* $WKDIR/seedianOS104bits_$UDATE-1_all/usr/local/bin/
+
+--------------------------------------
+
+6. Create a special metadata file with which the package manager will
+install your program...
+
+Code:
+mkdir $WKDIR/seedianOS104bits_$UDATE-1/DEBIAN
+mousepad $WKDIR/seedianOS104bits_$UDATE-1/DEBIAN/control
+
+Code:
+Package: seedianOS104bits
+Version: $UDATE-1
+Section: base
+Essential: no
+Priority: optional
+Architecture: all
+Depends: live-build, curl, wget, apt-transport-https, dirmngr
+Maintainer: seedian <https://github.com/projects/seedianos/>
+Description: seedianOS104bits
+ Updated seedianOS104 documentation and scripts
+
+--------------------------------------
+
+7. Make the package:
+
+Code:
+dpkg-deb --build seedianOS104bits_$UDATE-1_all
+md5sum seedianOS104bits_$UDATE-1_all.deb > seedianOS104bits_$UDATE-1_all.md5
+
+
+# seedianOS104bits.txt -- Revision: 104r1 -- by seedian (https://github.com/projects/seedianos/)
+# (GNU/General Public License version 3.0)

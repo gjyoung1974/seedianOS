@@ -1,0 +1,83 @@
+#!/bin/bash
+#
+# seedianOS104bits -- Revision: 104r1 -- by seedian (https://github.com/projects/seedianos/)
+# (GNU/General Public License version 3.0)
+#
+#--------------------------------
+# Set variables
+#--------------------------------
+# Set date format
+UDATE=$(date +%Y%m%d)
+#
+# Set working directory
+WKDIR="$(pwd)"
+#
+#--------------------------------
+# define functions
+#--------------------------------
+# Make project directory structure
+ezblddir () {
+mkdir -p $WKDIR/seedianOS104bits_$UDATE-1_all
+mkdir -p $WKDIR/seedianOS104bits_$UDATE-1_all/usr/local/bin
+mkdir -p $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104
+mkdir -p $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/doc/seedianOS104
+mkdir -p $WKDIR/seedianOS104bits_$UDATE-1_all/DEBIAN
+}
+#
+# Copy files into project directories
+ezcpfiles () {
+cp -r $WKDIR/seedian104/bootloaders $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp -r $WKDIR/seedian104/hooks $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp -r $WKDIR/seedian104/icons $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp -r $WKDIR/seedian104/launchers $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp -r $WKDIR/seedian104/livebuild $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp -r $WKDIR/seedian104/scripts $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp -r $WKDIR/seedian104/sources $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp -r $WKDIR/seedian104/seedianOS104bits $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp -r $WKDIR/seedian104/doc $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp -r $WKDIR/seedian104/splash $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp $WKDIR/seedian104/doc/* $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/doc/seedianOS104/
+cp $WKDIR/seedian104/seedianOS104bits/postinst $WKDIR/seedianOS104bits_$UDATE-1_all/DEBIAN/
+cp $WKDIR/seedian104/bldseedian104 $WKDIR/seedianOS104bits_$UDATE-1_all/usr/share/seedianOS104/seedian104/
+cp $WKDIR/seedian104/scripts/* $WKDIR/seedianOS104bits_$UDATE-1_all/usr/local/bin/
+}
+#
+# Create control file
+crtcontronl () {
+cat <<EOT >> $WKDIR/seedianOS104bits_$UDATE-1_all/DEBIAN/control
+Package: seedianOS104bits
+Version: $UDATE-1
+Section: base
+Essential: no
+Priority: optional
+Architecture: all
+Depends: live-build, curl, wget, apt-transport-https, dirmngr
+Maintainer: seedian <https://github.com/projects/seedianos/>
+Description: seedianOS104bits
+ Updated seedianOS104 documentation and scripts
+EOT
+}
+#
+#----------------------------
+# main program
+#----------------------------
+#
+ezblddir
+ezcpfiles
+crtcontronl
+# Build deb file
+dpkg-deb --build seedianOS104bits_$UDATE-1_all && md5sum seedianOS104bits_$UDATE-1_all.deb > seedianOS104bits_$UDATE-1_all.md5
+#
+# Disclaimer:
+#
+# THIS SOFTWARE IS PROVIDED BY seedian “AS IS” AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+# EVENT SHALL seedian BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+# IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#

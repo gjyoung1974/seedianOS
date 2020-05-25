@@ -1,0 +1,27 @@
+---
+componentName:   seedianos
+welcomeStyleCalamares: true
+
+strings:
+    productName:         seedianOS
+    shortProductName:    seedianOS
+    version:             104
+    shortVersion:        104
+    versionedName:       seedianOS 104
+    shortVersionedName:  seedianOS 104
+    bootloaderEntryName: Debian
+    productUrl:          
+    supportUrl:          
+    releaseNotesUrl:     
+
+images:
+    productLogo:         "seedianos-logo.png"
+    productIcon:         "seedianos-logo.png"
+    productWelcome:      "welcome.png"
+
+slideshow:               "show.qml"
+
+style:
+   sidebarBackground:    "#2c3133"
+   sidebarText:          "#FFFFFF"
+   sidebarTextSelect:    "#4d7079"

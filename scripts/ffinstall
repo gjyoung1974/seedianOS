@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# ffinstall -- Revision: 104r1 -- by seedian (https://github.com/projects/seedianos/)
+# (GNU/General Public License version 3.0)
+#
+if [ -d "/opt/FFDL" ]; then rm -r /opt/FFDL
+fi
+mkdir /opt/FFDL
+if [ -d "/opt/moz" ]; then rm -r /opt/moz
+fi
+mkdir /opt/moz
+wget -O /opt/FFDL/FirefoxSetup.tar.bz2 "https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=en-US"
+tar xjf /opt/FFDL/FirefoxSetup.tar.bz2 -C /opt/moz/
+cp /usr/share/seedianOS104/seedian104/launchers/Firefox-Latest.desktop /usr/share/applications/
+rm -r /opt/FFDL
+clear
+
